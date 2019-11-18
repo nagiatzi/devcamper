@@ -22,7 +22,8 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 
     let queryStr = JSON.stringify(reqQuery);
 
-    //Create operators ($gt, $gte, etc)
+    //Create operators ($gt, $gte, etc) he is going that because there were not $ for 
+    //immediate quering
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
 
     //Finding resource
