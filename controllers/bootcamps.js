@@ -9,82 +9,10 @@ const path = require('path');
 // @route GET /api/v1/bootcamps
 // @access Public
 exports.getBootcamps = asyncHandler(async (req, res, next) => {
-    let query;
-
-    // copy req.query
-    const reqQuery = {...req.query}
-
-    //Fields to exlude αν δεν τα βγάλει τα καταλαβαίνει ως πεδία 
-    const removeFields = ['select', 'sort', 'page', 'limit'];
-
-    //loop over removeFields and deete them from reqQuery
-    removeFields.forEach(param => delete reqQuery[param]);
-
-
-    let queryStr = JSON.stringify(reqQuery);
-
-    //Create operators ($gt, $gte, etc) he is going that because there were not $ for 
-    //immediate quering
-    queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
-
-    //Finding resource
-    query = Bootcamp.find(JSON.parse(queryStr)).populate('courses');
-
-    //SELECT FIELDS
-    if(req.query.select){
-        const fields = req.query.select.split(',').join(' ');
-        console.log(fields);
-        query = query.select(fields);
-    }
-
-    //Sort
-    if (req.query.sort) {
-        const sortBy = req.query.sort.split(',').join(' ');
-        query = query.sort(sortBy);
-    } else {
-        query = query.sort('createdAt');
-    }
-
-    //Pagination
-    const page = parseInt(req.query.page, 10 ) || 1;
-    const limit = parseInt(req.query.limit, 10) || 25;
-    const startIndex = (page -1 ) * limit;
-    const endIndex = page * limit;
-    const total = await Bootcamp.countDocuments();
-
-   // console.log("start index is ", startIndex);
-   // console.log("end index is ", endIndex);
-    //console.log("total is ", total);
-
-
-    query = query.skip(startIndex).limit(limit);
-
-
-    // Executing our query
-    const bootcamps = await query;
-
-    //Pagination result
-    const pagination = {}
-
-     if(endIndex < total) {
-         console.log('ήρθε');
-         pagination.next = {
-             page: page + 1,
-             limit
-         }
-     }
-
-     if (startIndex > 0) {
-         pagination.prev = {
-             page: page - 1,
-             limit
-         }
-     }
-
-
+    
     res
         .status(200)
-        . json({ success: true, count: bootcamps.length, pagination, data: bootcamps});
+        .json(res.advancedResults);
 
 }); 
 
@@ -206,7 +134,7 @@ exports.bootcampPhotoUpload = asyncHandler(async (req, res, next) => {
     }
   
     const file = req.files.file;
-    console.log(file);
+    //console.log(file);
   
     // Make sure the image is a photo
     if (!file.mimetype.startsWith('image')) {

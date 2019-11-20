@@ -1,4 +1,6 @@
 const express = require('express');
+const advanceResults = require('../middleware/advancedResults');
+const Course = require('../models/Course');
 
 const { 
     getCourses,
@@ -10,7 +12,12 @@ const {
 
 const router = express.Router({ mergeParams: true });
 
-router.route('/').get(getCourses).post(addCourse);
+router.route('/')
+    .get(advanceResults(Course, {
+        path: 'bootcamp',
+        select: 'name description'
+    }), getCourses)
+    .post(addCourse);
 
 
 router.route('/:id')
