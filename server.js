@@ -5,6 +5,8 @@ const fileupload = require('express-fileupload');
 const colors = require('colors');
 const errorHandler = require('./middleware/error');
 const path = require('path');
+const cookieParser = require('cookie-parser');
+
 
 
 const connectDB = require('./config/db');
@@ -19,7 +21,7 @@ connectDB();
 //Routes files
 const bootcamps = require('./routes/bootcamps');
 const courses  = require('./routes/courses');
-
+const auth  = require('./routes/auth');
 
 const app = express();
 
@@ -29,6 +31,8 @@ app.use(fileupload());
 //body parser 
 app.use(express.json());
 
+// Cookie parser
+app.use(cookieParser());
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
@@ -45,6 +49,8 @@ const PORT = process.env.PORT || 3000;
 //mount routers
 app.use('/api/v1/bootcamps', bootcamps);
 app.use('/api/v1/courses', courses);
+app.use('/api/v1/auth', auth);
+
 
 app.use(errorHandler);
 

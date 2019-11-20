@@ -10,10 +10,13 @@
   "author": "nagiatzi",
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
+    "cookie-parser": "^1.4.4",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6-alpha.6",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.9",
     "morgan": "^1.9.1",
     "node-geocoder": "^3.25.0",
