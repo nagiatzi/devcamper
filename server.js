@@ -52,7 +52,7 @@ app.use(helmet());
 app.use(xss());
 
 app.get('/', (req, res) => {
-  res.send('This is a backend API. Full documentation can be found at https://documenter.getpostman.com/view/9420864/SW7c3TGe?version=latest');
+  res.send('This is a tutorial based backend API. Full documentation can be found at https://documenter.getpostman.com/view/9420864/SW7c3TGe?version=latest');
 });
 
 // Rate limiting
