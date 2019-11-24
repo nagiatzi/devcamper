@@ -51,6 +51,10 @@ app.use(helmet());
 // Prevent XSS attacks
 app.use(xss());
 
+app.get('/', (req, res) => {
+  res.send('This is a backend API. Full documentation can be found at https://documenter.getpostman.com/view/9420864/SW7c3TGe?version=latest');
+});
+
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 mins
